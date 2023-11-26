@@ -1,16 +1,17 @@
 #include <string.h>
 #include <stdlib.h>
+#include <wchar.h>
 
 #include "structures.h"
 
-void replaceChars(char *str, const char *charsToReplace, const char *substr) {
+void replaceChars(wchar_t *str, const wchar_t *charsToReplace, const wchar_t *substr) {
 
-    char *token = strtok(str, charsToReplace);
+    wchar_t *token = wcstok(str, charsToReplace, &str);
     while (token != NULL) {
-        char *nextToken = strtok(NULL, charsToReplace);
+        wchar_t *nextToken = wcstok(NULL, charsToReplace, &str);
         if (nextToken != NULL) {
-            strcat(token, substr);
-            strcat(token, nextToken);
+            wcscat(token, substr);
+            wcscat(token, nextToken);
         }
         token = nextToken;
     }
@@ -20,19 +21,19 @@ void replaceChars(char *str, const char *charsToReplace, const char *substr) {
 
 void replaceSpecialSymbols(struct Text *textStructured) {
 
-    char *delims = ".,;!@#$^&*()";
-    char *new_sentence;
-    char *toAdd = ">special symbol<";
+    wchar_t *delims = L".,;!@#$^&*()";
+    wchar_t *new_sentence;
+    wchar_t *toAdd = L">special symbol<";
     
     for (int i = 0; i < textStructured->len; i++) {
-        new_sentence = malloc(strlen(textStructured->sentences[i]->sentence) + 2);
-        new_sentence[0] = '\0'; 
-        for (int j = 0; j < strlen(textStructured->sentences[i]->sentence); j++) {
-            if (strchr(delims, textStructured->sentences[i]->sentence[j])) {
-                new_sentence = realloc(new_sentence, strlen(new_sentence) + strlen(toAdd) + 2);
-                strcat(new_sentence, toAdd);
+        new_sentence = malloc(wcslen(textStructured->sentences[i]->sentence) + 2);
+        new_sentence[0] = L'\0'; 
+        for (int j = 0; j < wcslen(textStructured->sentences[i]->sentence); j++) {
+            if (wcschr(delims, textStructured->sentences[i]->sentence[j])) {
+                new_sentence = realloc(new_sentence, wcslen(new_sentence) + wcslen(toAdd) + 2);
+                wcscat(new_sentence, toAdd);
             } else {
-                int len = strlen(new_sentence);
+                int len = wcslen(new_sentence);
                 new_sentence[len] = textStructured->sentences[i]->sentence[j];
                 new_sentence[len + 1] = '\0';
             }

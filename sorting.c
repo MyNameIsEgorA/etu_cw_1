@@ -1,17 +1,19 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <wchar.h>
+#include <wctype.h>
 
 #include "structures.h"
 #include "printFunctions.h"
 
 
-int countLatinLetters(char *sentence) {
+int countLatinLetters(wchar_t *sentence) {
 
     int count = 0;
 
-    for (int i = 0; i < strlen(sentence); i++) {
-        if (isalpha(sentence[i])) {
+    for (int i = 0; i < wcslen(sentence); i++) {
+        if (isalpha((char)sentence[i])) {
             count++;
         }
     }
@@ -29,7 +31,7 @@ int sortLettersCompare(const void* sentenceA, const void* sentenceB) {
     const struct Sentence* sentence_two = *(const struct Sentence**)sentenceB;
 
     if (sentence_one == NULL || sentence_two == NULL) {
-        printError("ERROR: sortLettersComapare arguments aren't Sentence struct");
+        printError(L"ERROR: sortLettersComapare arguments aren't Sentence struct");
         return 0;
     }
 

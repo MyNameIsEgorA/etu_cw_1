@@ -1,7 +1,6 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+#include <locale.h>
+
 
 #include "structures.h"
 #include "printFunctions.h"
@@ -14,11 +13,14 @@
 
 int main() {
 
+    setlocale(LC_CTYPE, "");
+
     struct Text sentencesArray;
     sentencesArray.len = 0;
-    sentencesArray.sentences = malloc(1 * sizeof(struct Sentence*));
+    sentencesArray.sentences = malloc(2 * sizeof(struct Sentence*));
 
     int option = start();
+
 
     switch (option)
     {
@@ -37,8 +39,8 @@ int main() {
         wrapper(deleteDifferentLanguages, &sentencesArray);
         break;
     default:
-        printError("ERROR: incorrect input data. Please use numbers from 0 to 5\n");
-        printf("Program competed unsuccsessfully\n");
+        printError(L"ERROR: incorrect input data. Please use numbers from 0 to 5\n");
+        printError(L"Program competed unsuccsessfully\n");
         return 1;
     }
 

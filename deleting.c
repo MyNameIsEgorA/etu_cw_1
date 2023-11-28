@@ -1,20 +1,22 @@
 #include <ctype.h>
 #include <stdlib.h>
-#include <stdio.h>
+#include <wchar.h>
+#include <wctype.h>
+#include <locale.h>
 
 #include "structures.h"
 
-int differentLanguages(char *sentence) {
+int differentLanguages(wchar_t *sentence) {
 
     int latin = 0;
     int cyrillic = 0;
 
-    for (int i = 0; sentence[i] != '\0'; i++) {
-        if (isalpha(sentence[i])) {
+    for (int i = 0; sentence[i] != L'\0'; i++) {
+        if (isalpha((char)sentence[i])) {
             latin++;
         }
         else {
-            if ((sentence[i] >= 'А') || sentence[i] >= 'а') {
+            if ((sentence[i] >= L'А') || sentence[i] >= L'а') {
                 cyrillic++;
             }
         }
@@ -51,7 +53,7 @@ void deleteDifferentLanguages(struct Text *textStructured) {
     }
 
     if (textStructured->len == 0) {
-        printf("\033[1;33mAll sentences contained cyrillic and latin letters so TEXT is empty\033\n");
+        wprintf(L"\033[1;33mAll sentences contained cyrillic and latin letters so TEXT is empty\033\n");
     }
 
 }

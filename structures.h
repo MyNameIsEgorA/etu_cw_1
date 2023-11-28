@@ -1,5 +1,7 @@
+#include <wchar.h>
+
 struct Sentence {
-    char *sentence;
+    wchar_t *sentence;
     int len;
 };
 

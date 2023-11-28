@@ -1,6 +1,5 @@
 #include <ctype.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <wchar.h>
 #include <wctype.h>
 #include <locale.h>
@@ -13,7 +12,7 @@ int differentLanguages(wchar_t *sentence) {
     int cyrillic = 0;
 
     for (int i = 0; sentence[i] != L'\0'; i++) {
-        if (iswalpha(sentence[i])) {
+        if (isalpha((char)sentence[i])) {
             latin++;
         }
         else {

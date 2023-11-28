@@ -1,7 +1,4 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
 #include <locale.h>
 
 
@@ -20,11 +17,10 @@ int main() {
 
     struct Text sentencesArray;
     sentencesArray.len = 0;
-    sentencesArray.sentences = malloc(1 * sizeof(struct Sentence*));
+    sentencesArray.sentences = malloc(2 * sizeof(struct Sentence*));
 
     int option = start();
 
-    printf("HEWHRUIEWHRUIEWHR");
 
     switch (option)
     {
@@ -44,7 +40,7 @@ int main() {
         break;
     default:
         printError(L"ERROR: incorrect input data. Please use numbers from 0 to 5\n");
-        printf("Program competed unsuccsessfully\n");
+        printError(L"Program competed unsuccsessfully\n");
         return 1;
     }
 

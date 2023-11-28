@@ -1,8 +1,7 @@
-#include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <wchar.h>
 #include <wctype.h>
+#include <ctype.h>
 
 #include "structures.h"
 #include "printFunctions.h"

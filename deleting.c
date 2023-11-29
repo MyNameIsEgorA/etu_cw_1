@@ -6,24 +6,26 @@
 
 #include "structures.h"
 
-int differentLanguages(wchar_t *sentence) {
+int differentLanguages(const wchar_t *sentence) {
+
+    // Принимает на вход предложение. Возвращает 1, если есть и кириллица и латиница в предложении, иначе 0
 
     int latin = 0;
     int cyrillic = 0;
 
     for (int i = 0; sentence[i] != L'\0'; i++) {
-        if (isalpha((char)sentence[i])) {
-            latin++;
-        }
-        else {
-            if ((sentence[i] >= L'А') || sentence[i] >= L'а') {
-                cyrillic++;
+        if (iswalpha(sentence[i])) {
+            if ((sentence[i] >= L'a' && sentence[i] <= L'z') || (sentence[i] >= L'A' && sentence[i] <= L'Z')) {
+                latin = 1;
+            }
+            else if ((sentence[i] >= L'А' && sentence[i] <= L'Я') || (sentence[i] >= L'а' && sentence[i] <= L'я')) {
+                cyrillic = 1;
             }
         }
-    }
 
-    if (latin > 0 && cyrillic > 0) {
-        return 1;
+        if (latin && cyrillic) {
+            return 1;
+        }
     }
 
     return 0;
@@ -31,6 +33,8 @@ int differentLanguages(wchar_t *sentence) {
 }
 
 void deletingSentenceFromText(struct Text *textStructured, int index) {
+
+    // Принимает на вход структуру Text и индекс предложения, которое нужно удалить. Далее удаляет это предложение, смещая все предложения после на 1 позицию назад
 
     free(textStructured->sentences[index]);
 
@@ -43,6 +47,8 @@ void deletingSentenceFromText(struct Text *textStructured, int index) {
 }
 
 void deleteDifferentLanguages(struct Text *textStructured) {
+
+    // Принимает на вход структуру Text и удаляет все предложения, в которых есть и латинские и кириллические символы
 
     for (int i = 0; i < textStructured->len;) {
         if (differentLanguages(textStructured->sentences[i]->sentence)) {

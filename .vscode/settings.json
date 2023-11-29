@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "printfunctions.h": "c",
+        "structures.h": "c"
+    }
+}

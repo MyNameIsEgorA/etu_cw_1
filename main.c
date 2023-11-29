@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <locale.h>
 
-
 #include "structures.h"
 #include "printFunctions.h"
 #include "inputHandler.h"
@@ -12,6 +11,8 @@
 
 
 int main() {
+
+    // Основная функция. Инициализирует структуру и вызывает функцию, которую выбрал пользователь. После всех преобразовний со структурой выводит ее.
 
     setlocale(LC_CTYPE, "");
 
@@ -47,4 +48,5 @@ int main() {
     printArray(&sentencesArray);
 
     return 0;
+
 }

@@ -25,8 +25,6 @@ int main() {
 
     switch (option)
     {
-    case 5:
-        return 0;
     case 1:
         wrapper(palindromsInText, &sentencesArray);
         break;
@@ -38,6 +36,9 @@ int main() {
         break;
     case 4:
         wrapper(deleteDifferentLanguages, &sentencesArray);
+        break;
+    case 5:
+        printOptions();
         break;
     default:
         printError(L"ERROR: incorrect input data. Please use numbers from 0 to 5\n");

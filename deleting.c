@@ -3,27 +3,29 @@
 #include <wchar.h>
 #include <wctype.h>
 #include <locale.h>
+#include <ctype.h>
 
 #include "structures.h"
 
-int differentLanguages(const wchar_t *sentence) {
+int differentLanguages(const wchar_t* sentence) {
 
     // Принимает на вход предложение. Возвращает 1, если есть и кириллица и латиница в предложении, иначе 0
 
-    int latin = 0;
-    int cyrillic = 0;
+    int has_latin = 0;
+    int has_cyrillic = 0;
 
     for (int i = 0; sentence[i] != L'\0'; i++) {
         if (iswalpha(sentence[i])) {
-            if ((sentence[i] >= L'a' && sentence[i] <= L'z') || (sentence[i] >= L'A' && sentence[i] <= L'Z')) {
-                latin = 1;
-            }
-            else if ((sentence[i] >= L'А' && sentence[i] <= L'Я') || (sentence[i] >= L'а' && sentence[i] <= L'я')) {
-                cyrillic = 1;
+            if (sentence[i] >= L'a' && sentence[i] <= L'z' ||
+                sentence[i] >= L'A' && sentence[i] <= L'Z') {
+                has_latin = 1;
+            } else if (sentence[i] >= L'а' && sentence[i] <= L'я' ||
+                       sentence[i] >= L'А' && sentence[i] <= L'Я') {
+                has_cyrillic = 1;
             }
         }
 
-        if (latin && cyrillic) {
+        if (has_latin && has_cyrillic) {
             return 1;
         }
     }
@@ -45,6 +47,7 @@ void deletingSentenceFromText(struct Text *textStructured, int index) {
     textStructured->len--;
 
 }
+
 
 void deleteDifferentLanguages(struct Text *textStructured) {
 

@@ -144,7 +144,7 @@ int wrapper(void (*function)(struct Text *), struct Text *sentencesArray) {
 
     wchar_t *new_text = reading();
 
-    if (wcscmp(new_text, L"\n\n") == 0) {
+    if (wcscmp(new_text, L"\0") == 0) {
         printError(L"error at wrapper");
         return 1;
     }

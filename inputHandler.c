@@ -98,7 +98,38 @@ void deleteWhiteSpaces(struct Text *sentencesArray) {
             }
         }
     }
+}
 
+void removeExtraSpacesBetween(wchar_t *sentence) {
+
+    int len = wcslen(sentence);
+    wchar_t *newSentence = (wchar_t*)malloc(sizeof(wchar_t) * (len + 1));
+    int j = 0;
+
+    for (int i = 0; i < len; i++) {
+        if ((sentence[i] != L' ' || (i > 0 && sentence[i - 1] != L' '))) {
+            newSentence[j++] = sentence[i];
+        }
+    }
+    newSentence[j] = L'\0';
+    wcscpy(sentence, newSentence);
+    free(newSentence);
+}
+
+void deleteSpaceBeforePunct(wchar_t *sentence) {
+    int len = wcslen(sentence);
+    wchar_t *newSentence = (wchar_t*)malloc(sizeof(wchar_t) * (len + 1));
+    int j = 0;
+
+    for (int i = 0; i < len; i++) {
+        if (sentence[i] != L' ' || sentence[i + 1] != L',') {
+            newSentence[j++] = sentence[i];
+        }
+    }
+
+    newSentence[j] = L'\0';
+    wcscpy(sentence, newSentence);
+    free(newSentence);
 }
 
 void addSentencesToText(struct Text *textStructured, wchar_t *text) {
@@ -122,6 +153,8 @@ void addSentencesToText(struct Text *textStructured, wchar_t *text) {
                 printError(L"ERROR: failed to reallocate memory for textStructed->sentences");
                 exit(1);
             }
+            removeExtraSpacesBetween(newSentence->sentence);
+            deleteSpaceBeforePunct(newSentence->sentence);
             if (!sentenceExists(textStructured, newSentence->sentence)) {
                 textStructured->sentences[textStructured->len] = newSentence;
                 textStructured->len++;
@@ -134,6 +167,22 @@ void addSentencesToText(struct Text *textStructured, wchar_t *text) {
 
     deleteWhiteSpaces(textStructured);
     
+}
+
+void deletingEmpty(struct Text *sentencesArray) {
+
+    int sentencesCount = sentencesArray->len - 1;
+    int lastSentLen = sentencesArray->sentences[sentencesCount]->len - 1;
+
+    for (int i = 0; i < sentencesArray->sentences[sentencesArray->len - 1]->len; i++) {
+        if (iswalpha(sentencesArray->sentences[sentencesCount]->sentence[i])) {
+            sentencesArray->sentences[sentencesCount]->sentence[lastSentLen - 1] = '\0';
+            return;
+        }
+    }
+
+    free(sentencesArray->sentences[sentencesArray->len-- -1]);
+
 }
 
 int wrapper(void (*function)(struct Text *), struct Text *sentencesArray) {
@@ -151,8 +200,10 @@ int wrapper(void (*function)(struct Text *), struct Text *sentencesArray) {
 
     addSentencesToText(sentencesArray, new_text);
     deleteWhiteSpaces(sentencesArray);
-    free(sentencesArray->sentences[sentencesArray->len-- -1]); // Удаление последнего предложения из структуры 
-    function(sentencesArray);
+    deletingEmpty(sentencesArray); // Удаление последнего предложения из структуры 
+    if (function != 0) {
+        function(sentencesArray);
+    }
     
     return 0;
 

@@ -25,6 +25,9 @@ int main() {
 
     switch (option)
     {
+    case 0:
+        wrapper(0, &sentencesArray);
+        break;
     case 1:
         wrapper(palindromsInText, &sentencesArray);
         break;

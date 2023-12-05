@@ -16,7 +16,7 @@ void printArray(struct Text *textStructured) {
     // Выводит все предложения структуры Text. На вход получает стурктуру Text
 
     for (int i = 0; i < textStructured->len; i++) {
-        wprintf(L"%ls\n.", textStructured->sentences[i]->sentence);
+        wprintf(L"%ls\n", textStructured->sentences[i]->sentence);
     }
 
 }
